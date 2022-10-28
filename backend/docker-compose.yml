@@ -1,0 +1,45 @@
+version: '3.3'
+
+services:
+  dev_backend:
+    build:
+      dockerfile: Dockerfile
+      context: .
+    container_name: plateforme2Backend
+    ports:
+      - '3000:3000'
+    networks:
+      - database
+    command: npm run start:dev
+    volumes:
+      - .:/usr/src/app
+
+
+  database:
+    container_name: plateformeDatabase
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      # So you don't have to use root, but you can if you like
+      MYSQL_USER: 'user'
+      # You can use whatever password you like
+      MYSQL_PASSWORD: 'password'
+      # Password for root access
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    networks:
+      - database
+    volumes:
+      - my-db:/var/lib/mysql
+
+volumes:
+  my-db:
+  
+networks:
+  database:
+    driver: bridge
+
