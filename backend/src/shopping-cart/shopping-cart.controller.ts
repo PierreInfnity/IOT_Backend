@@ -5,8 +5,8 @@ import { ShoppingCartService } from './shopping-cart.service';
 export class ShoppingCartController {
     constructor (private readonly shoppingCartService: ShoppingCartService) {}
 
-    @Put("/assign/:basketId/:userId") // create a basket and assign it to a user
-    assignBasketToUser(@Param("basketId") basketId: string, @Param("userId") userId: string) {
-        // return this.shoppingCartService.assignBasketToUser(basketId, userId);
+    @Put("/assign-cart/:userId/:shoppingCartId")
+    assignCartToUser(@Param("userId") userId: number, @Param("shoppingCartId") shoppingCartId: number) {
+        return this.shoppingCartService.assignCartToUser(userId, shoppingCartId);
     }
 }

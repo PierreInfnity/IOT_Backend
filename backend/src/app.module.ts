@@ -10,6 +10,7 @@ import { BasketModule } from './basket/basket.module';
 import { Basket } from './entity/Basket.entity';
 import { Cart } from './entity/Cart.entity';
 import { User } from './entity/User.entity';
+import { UserModule } from './user/user.module';
 
 
 @Module({
@@ -25,7 +26,7 @@ import { User } from './entity/User.entity';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), ShoppingCartModule, BasketModule,],
+  }), ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart])],
   controllers: [AppController, ShoppingCartController, BasketController],
   providers: [AppService, ShoppingCartService],
 })
