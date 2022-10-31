@@ -27,7 +27,7 @@ import { UserModule } from './user/user.module';
       synchronize: true
     })
   }), ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart])],
-  controllers: [AppController, ShoppingCartController, BasketController],
-  providers: [AppService, ShoppingCartService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
