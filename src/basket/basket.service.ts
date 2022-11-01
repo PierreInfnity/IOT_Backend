@@ -35,7 +35,9 @@ export class BasketService {
     }
 
     async getAllBaskets() {
-        const basket =  this.basketsRepository.find();
+        const basket =  this.basketsRepository.find({
+            relations: ['user', 'cart'],
+        });
         return basket;
     }
 }

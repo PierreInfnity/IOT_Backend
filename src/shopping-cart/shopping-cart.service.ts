@@ -60,6 +60,8 @@ export class ShoppingCartService {
     }   
     
     getAllCarts() {
-        return this.cartsRepository.find();
+        return this.cartsRepository.find({
+            relations: ['basket'],
+        });
     }
 }
