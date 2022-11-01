@@ -33,4 +33,9 @@ export class BasketService {
         basket.cart = cart2;
         return this.basketsRepository.save(basket);
     }
+
+    async getAllBaskets() {
+        const basket =  this.basketsRepository.find();
+        return basket;
+    }
 }

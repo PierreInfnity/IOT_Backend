@@ -19,4 +19,9 @@ export class ShoppingCartController {
     createCart() {
         return this.shoppingCartService.createCart();
     }
+
+    @Get()
+    findAll() {
+        return this.shoppingCartService.getAllCarts();
+    }
 }

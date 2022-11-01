@@ -32,7 +32,7 @@ export class ShoppingCartService {
         cartToUpdate.basket = basket;
 
         
-        await this.cartsRepository.save(cartToUpdate);
+        return await this.cartsRepository.save(cartToUpdate);
     }
 
     async getQRcode(cartId: number) {
@@ -57,5 +57,9 @@ export class ShoppingCartService {
         const cart = new Cart();
         cart.reserved = false
         return this.cartsRepository.save(cart);
-    }    
+    }   
+    
+    getAllCarts() {
+        return this.cartsRepository.find();
+    }
 }
