@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BasketService } from 'src/basket/basket.service';
 import { Cart } from 'src/entity/Cart.entity';
-import QRCode from 'qrcode'
+import * as QC from 'qrcode'
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -42,14 +42,10 @@ export class ShoppingCartService {
         let stringdata = JSON.stringify(data)
 
 
-        QRCode.toString(stringdata,{type:'terminal'},
-                    function (err, QRcode) {
-                        
-            if(err) return console.log("Error occured while generating QR code");
-        
-            // Printing the generated code
-            console.log(QRcode)
-        })  
+        const qrcode = QC.create(stringdata) 
+        const qrcodeTostring = QC.toString(stringdata)
+        console.log(qrcodeTostring)
+        return QC.toString(stringdata, {type: 'utf8'})
     }
 
     // Create basket
