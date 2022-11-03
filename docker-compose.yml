@@ -5,10 +5,12 @@ services:
     build:
       dockerfile: Dockerfile
       context: .
-    container_name: plateforme2Backend
+    container_name: iot_backend
     ports:
       - '3000:3000'
     networks:
+      - database
+    depends_on:
       - database
     command: npm run start:dev
     volumes:
@@ -16,7 +18,7 @@ services:
 
 
   database:
-    container_name: plateformeDatabase
+    container_name: iot_database
     image: mysql:5.7
     restart: always
     environment:
