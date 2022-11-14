@@ -28,7 +28,7 @@ export class UserService {
 
     }
 
-    getUser(userId: number) {
+    getUser(userId: string) {
         return this.usersRepository.findOneBy({ id: userId });
     }
 

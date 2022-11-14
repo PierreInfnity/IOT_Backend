@@ -5,7 +5,7 @@ import { User } from "./User.entity"
 @Entity()
 export class Basket {
     @PrimaryGeneratedColumn()
-    id: number
+    id: string
 
     @OneToOne(() => User)
     @JoinColumn()

@@ -14,6 +14,8 @@ import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guards';
+import { Product } from './entity/Product.entity';
+import { ProductModule } from './product/product.module';
 
 
 @Module({
@@ -24,12 +26,12 @@ import { AuthGuard } from './auth/guards/auth.guards';
       username: "user",
       password: "password",
       database: "db",
-      entities: [Basket, Cart, User],
+      entities: [Basket, Cart, User, Product],
       port: 3306,
       autoLoadEntities: true,
       synchronize: true
     })
-  }), AuthModule, ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart])],
+  }), AuthModule, ShoppingCartModule, BasketModule, UserModule, ProductModule, TypeOrmModule.forFeature([Basket, User, Cart, Product])],
   controllers: [AppController],
   providers: [AppService,
     {

@@ -7,21 +7,21 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class ShoppingCartService {
-    constructor (
+    constructor(
         @InjectRepository(Cart)
         private cartsRepository: Repository<Cart>,
 
         private basketService: BasketService,
-    ) {}
+    ) { }
 
-    async assignCartToUser(userId: number, shoppingCartId: number) {
+    async assignCartToUser(userId: string, shoppingCartId: string) {
         // Modify reserved boolean in cart
 
         const cartToUpdate = await this.cartsRepository.findOneBy({
             id: shoppingCartId,
         })
         cartToUpdate.reserved = true;
-        
+
 
         // Create basket
 
@@ -31,30 +31,30 @@ export class ShoppingCartService {
 
         cartToUpdate.basket = basket;
 
-        
+
         return await this.cartsRepository.save(cartToUpdate);
     }
 
-    async getQRcode(cartId: number) {
+    async getQRcode(cartId: string) {
         let data = {
             id: cartId
         }
         let stringdata = JSON.stringify(data)
 
 
-        const qrcode = QC.create(stringdata) 
+        const qrcode = QC.create(stringdata)
         const qrcodeTostring = QC.toString(stringdata)
         console.log(qrcodeTostring)
-        return QC.toString(stringdata, {type: 'utf8'})
+        return QC.toString(stringdata, { type: 'utf8' })
     }
 
     // Create basket
-    createCart () {
+    createCart() {
         const cart = new Cart();
         cart.reserved = false
         return this.cartsRepository.save(cart);
-    }   
-    
+    }
+
     getAllCarts() {
         return this.cartsRepository.find({
             relations: ['basket'],

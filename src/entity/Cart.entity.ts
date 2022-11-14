@@ -4,7 +4,7 @@ import { Basket } from "./Basket.entity"
 @Entity()
 export class Cart {
     @PrimaryGeneratedColumn()
-    id: number
+    id: string
 
     @Column()
     reserved: boolean
