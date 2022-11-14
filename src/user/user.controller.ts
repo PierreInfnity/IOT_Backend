@@ -1,7 +1,8 @@
-import { Body, Controller, Get, Param, Post, Req } from '@nestjs/common';
+import { Body, Controller, Get, Param, Post, Put, Req } from '@nestjs/common';
 import { Roles } from 'src/auth/decorators/roles.decorator';
 import { Role } from 'src/auth/decorators/roles.enum';
 import { AddUserDto } from './dto/add-user-dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -18,6 +19,13 @@ export class UserController {
     createUser(@Body() addCandidateDto: AddUserDto) {
         return this.userService.createUser(addCandidateDto);
     }
+
+    @Put()
+    @Roles(Role.User)
+    updateuser(@Req() req, @Body() updateUserDto: UpdateUserDto) {
+        return this.userService.updateUser(updateUserDto, req.jwtDatas.user_id);
+    }
+
 
     // Get All Users
     @Get()

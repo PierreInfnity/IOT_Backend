@@ -1,10 +1,11 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { LoginUserDto } from 'src/auth/dto/login-user.dto';
 import { User } from 'src/entity/User.entity';
 import { checkPassword } from 'src/utils/auth.utils';
 import { Repository } from 'typeorm';
 import { AddUserDto } from './dto/add-user-dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -13,7 +14,7 @@ export class UserService {
         private usersRepository: Repository<User>,
     ) { }
 
-    createUser(addCandidateDto: AddUserDto) {
+    async createUser(addCandidateDto: AddUserDto): Promise<User> {
         const user = new User();
         user.firstName = addCandidateDto.firstName;
         user.lastName = addCandidateDto.lastName;
@@ -22,6 +23,17 @@ export class UserService {
 
         return this.usersRepository.save(user);
     }
+
+    async updateUser(updateUserDto: UpdateUserDto, id: string) {
+
+        let client = await this.findOneByEmail(updateUserDto.mail)
+        if (client && client.id != id)
+            throw new UnauthorizedException('already_registered');
+
+        const updateUser: User = Object.assign(updateUserDto);
+        return this.usersRepository.save({ id: id, ...updateUser });
+    }
+
 
     async findOneByEmail(mail: string): Promise<User> {
         return this.usersRepository.findOne({ where: { mail: mail } });
