@@ -52,4 +52,10 @@ export class BasketController {
     payBasket(@Param("id") id: string) {
         return this.basketService.payBasket(id);
     }
+
+    @Get("history") //History basket
+    @Roles(Role.User)
+    getHistory(@Req() req) {
+        return this.basketService.getHistory(req.jwtDatas.user_id);
+    }
 }
