@@ -11,6 +11,11 @@ import { Basket } from './entity/Basket.entity';
 import { Cart } from './entity/Cart.entity';
 import { User } from './entity/User.entity';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { APP_GUARD } from '@nestjs/core';
+import { AuthGuard } from './auth/guards/auth.guards';
+import { Product } from './entity/Product.entity';
+import { ProductModule } from './product/product.module';
 
 
 @Module({
@@ -21,13 +26,18 @@ import { UserModule } from './user/user.module';
       username: "user",
       password: "password",
       database: "db",
-      entities: [Basket, Cart, User],
+      entities: [Basket, Cart, User, Product],
       port: 3306,
       autoLoadEntities: true,
       synchronize: true
     })
-  }), ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart])],
+  }), AuthModule, ProductModule, ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart, Product])],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService,
+    {
+      provide: APP_GUARD,
+      useExisting: AuthGuard
+    },
+    AuthGuard,],
 })
-export class AppModule {}
+export class AppModule { }

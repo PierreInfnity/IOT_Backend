@@ -1,17 +1,31 @@
-import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, Relation } from "typeorm"
+import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn, JoinTable, Relation, ManyToMany, Column, ManyToOne } from "typeorm"
 import { Cart } from "./Cart.entity"
+import { Product } from "./Product.entity"
 import { User } from "./User.entity"
 
 @Entity()
 export class Basket {
     @PrimaryGeneratedColumn()
-    id: number
+    id: string
 
-    @OneToOne(() => User)
-    @JoinColumn()
+    @ManyToOne(() => User, {
+        eager: true,
+    })
     user: User
 
-    @OneToOne(() => Cart, (cart) => cart.basket)
+    @OneToOne(() => Cart, (cart) => cart.basket, {
+        eager: true,
+    })
     @JoinColumn()
     cart: Relation<Cart>
+
+    @Column({ default: false })
+    active: boolean;
+
+    @ManyToMany(() => Product, {
+        eager: true,
+        onDelete: 'CASCADE',
+    })
+    @JoinTable()
+    products: Product[];
 }
