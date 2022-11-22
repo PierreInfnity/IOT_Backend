@@ -14,14 +14,23 @@ export class ShoppingCartService {
         private basketService: BasketService,
     ) { }
 
+
+    async isCartReserved(userId: string): Promise<Cart> {
+        let basket = await this.basketService.findActiveBasketForUser(userId)
+        if (basket) {
+            return this.cartsRepository.findOne({ where: { basket: basket }, relations: ['basket'] })
+        }
+        return null
+
+    }
     async assignCartToUser(userId: string, shoppingCartId: string) {
+
         // Modify reserved boolean in cart
 
         const cartToUpdate = await this.cartsRepository.findOneBy({
             id: shoppingCartId,
         })
         cartToUpdate.reserved = true;
-
 
         // Create basket
 
@@ -32,7 +41,9 @@ export class ShoppingCartService {
         cartToUpdate.basket = basket;
 
 
-        return await this.cartsRepository.save(cartToUpdate);
+        let newCart: Cart = await this.cartsRepository.save(cartToUpdate);
+        return this.cartsRepository.findOne({ where: { id: newCart.id }, relations: ['basket'] })
+
     }
 
     async getQRcode(cartId: string) {
@@ -59,5 +70,19 @@ export class ShoppingCartService {
         return this.cartsRepository.find({
             relations: ['basket'],
         });
+    }
+
+    async endReservation(id: string): Promise<Cart> {
+
+        // Modify reserved boolean in cart
+
+        const cartToUpdate = await this.cartsRepository.findOneBy({
+            id: id,
+        })
+        cartToUpdate.reserved = false;
+        cartToUpdate.basket = null;
+
+
+        return await this.cartsRepository.save(cartToUpdate);
     }
 }

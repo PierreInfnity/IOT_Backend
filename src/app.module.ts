@@ -31,7 +31,7 @@ import { ProductModule } from './product/product.module';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), AuthModule, ShoppingCartModule, BasketModule, UserModule, ProductModule, TypeOrmModule.forFeature([Basket, User, Cart, Product])],
+  }), AuthModule, ProductModule, ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart, Product])],
   controllers: [AppController],
   providers: [AppService,
     {

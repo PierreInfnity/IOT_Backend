@@ -12,7 +12,7 @@ export class Product {
     description: string
 
     @Column()
-    price: string
+    price: number
 
     @Column('longtext')
     image: Buffer
