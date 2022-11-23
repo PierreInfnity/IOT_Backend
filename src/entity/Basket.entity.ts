@@ -22,6 +22,12 @@ export class Basket {
     @Column({ default: false })
     active: boolean;
 
+    @Column({ nullable: true })
+    paidAt: Date;
+
+    @Column({ nullable: true })
+    paid: number;
+
     @ManyToMany(() => Product, {
         eager: true,
         onDelete: 'CASCADE',

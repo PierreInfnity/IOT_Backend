@@ -88,7 +88,19 @@ export class BasketService {
         let basket: Basket = await this.basketsRepository.findOne({ where: { id: id } });
         await this.shoppingCartService.endReservation(basket.cart.id)
         basket.active = false;
+        basket.paidAt = new Date(Date.now())
         basket.cart = null
+        let totalCost = 0
+        for (var i = 0; i < basket.products.length; i++) {
+            totalCost += basket.products[i].price
+        }
+        basket.paid = totalCost
         return this.basketsRepository.save(basket);
+    }
+
+    async getHistory(id: string): Promise<Basket[]> {
+        let user: User = await this.usersRepository.findOne({ where: { id: id } })
+        let baskets: Basket[] = await this.basketsRepository.find({ where: { user: user, active: false } });
+        return baskets
     }
 }
