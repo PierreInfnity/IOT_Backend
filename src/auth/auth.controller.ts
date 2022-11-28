@@ -12,6 +12,9 @@ import { inspect } from 'util';
 import { AuthService } from './auth.service';
 import { LoginUserDto } from './dto/login-user.dto';
 
+import { LoginManagerDto } from './dto/login-manager.dto';
+import { AddManagerDto } from 'src/manager/dto/add-manager-dto';
+
 
 @Controller('auth')
 export class AuthController {
@@ -49,4 +52,32 @@ export class AuthController {
         }
     }
 
+    @Post('register/manager')
+    async register_manager(@Body() addManagerDto: AddManagerDto): Promise<any> {
+        try {
+            const tokens = await this.service.register_manager(
+                addManagerDto
+            );
+            return { accessToken: tokens.accessToken };
+        } catch (error) {
+            Logger.error(error);
+            throw new HttpException(error, HttpStatus.UNAUTHORIZED);
+        }
+    }
+
+    @Put('login/manager')
+    async login_manager
+    (@Body() loginManagerDto: LoginManagerDto): Promise<any> {
+        try {
+            console.log(inspect(loginManagerDto))
+
+            const tokens = await this.service.login(
+                loginManagerDto
+            );
+            return { accessToken: tokens.accessToken };
+        } catch (error) {
+            Logger.error(error);
+            throw new HttpException(error, HttpStatus.UNAUTHORIZED);
+        }
+    }
 }
