@@ -16,6 +16,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guards';
 import { Product } from './entity/Product.entity';
 import { ProductModule } from './product/product.module';
+import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
 
 
 @Module({
@@ -31,7 +32,13 @@ import { ProductModule } from './product/product.module';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), AuthModule, ProductModule, ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart, Product])],
+  }), AuthModule, ProductModule, ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart, Product]),
+    
+  RabbitMQModule.forRoot(RabbitMQModule, {
+    prefetchCount: 1,
+    uri: "amqp://rabbitmqBackend",
+  }),
+  ],
   controllers: [AppController],
   providers: [AppService,
     {

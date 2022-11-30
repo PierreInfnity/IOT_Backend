@@ -12,6 +12,7 @@ services:
       - database
     depends_on:
       - database
+      - rabbitmq
     command: npm run start:dev
     volumes:
       - .:/usr/src/app
@@ -37,6 +38,31 @@ services:
       - database
     volumes:
       - my-db:/var/lib/mysql
+
+  rabbitmq:
+    container_name: rabbitmqBackend
+    image: rabbitmq:3.10-management
+    networks:
+      - database
+    ports:
+      - 5672:5672
+      - 15672:15672
+
+  init_rabbitmq:
+      image: rabbitmq:3.10-management
+      depends_on:
+        - rabbitmq
+      networks: 
+        - database
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          sleep 5
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare exchange name=appliblanche-exchange type=fanout
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare queue name=appliblanche-queue durable=true
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare binding source=appliblanche-exchange destination=appliblanche-queue
 
 volumes:
   my-db:
