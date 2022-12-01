@@ -12,6 +12,9 @@ export class Product {
     description: string
 
     @Column()
+    weight: number
+
+    @Column({default:0})
     price: number
 
     @Column('longtext')

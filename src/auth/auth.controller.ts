@@ -71,7 +71,7 @@ export class AuthController {
         try {
             console.log(inspect(loginManagerDto))
 
-            const tokens = await this.service.login(
+            const tokens = await this.service.login_manager(
                 loginManagerDto
             );
             return { accessToken: tokens.accessToken };

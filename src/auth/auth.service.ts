@@ -77,13 +77,12 @@ export class AuthService {
     }
 
     async login_manager(authUser: LoginManagerDto): Promise<JwtResponseDto> {
-
-        let user = await this.managerService.checkCredentials(authUser);
-        if (!user) {
+        let manager = await this.managerService.checkCredentials(authUser);
+        if (!manager) {
             this.logger.error('Bad credentials');
             throw new UnauthorizedException('bad_credentials');
         }
-        const accessToken = await this.createAccessToken({ sub: user.id, user_id: user.id, user_role: Role.User });
+        const accessToken = await this.createAccessToken({ sub: manager.id, user_id: manager.id, user_role: Role.User });
         return { accessToken };
     }
 

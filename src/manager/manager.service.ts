@@ -1,5 +1,6 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Console } from 'console';
 import { LoginManagerDto } from 'src/auth/dto/login-manager.dto';
 import { Manager } from 'src/entity/Manager.entity';
 import { checkPassword } from 'src/utils/auth.utils';
