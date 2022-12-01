@@ -60,7 +60,7 @@ export class AuthService {
 
         const addCandidat = await this.managerService.createManager(AddCandidatDto);
 
-        const accessToken = await this.createAccessToken({ sub: addCandidat.id, user_id: addCandidat.id, user_role: Role.User });
+        const accessToken = await this.createAccessToken({ sub: addCandidat.id, user_id: addCandidat.id, user_role: Role.Manager });
 
         return { accessToken };
     }
@@ -82,7 +82,7 @@ export class AuthService {
             this.logger.error('Bad credentials');
             throw new UnauthorizedException('bad_credentials');
         }
-        const accessToken = await this.createAccessToken({ sub: manager.id, user_id: manager.id, user_role: Role.User });
+        const accessToken = await this.createAccessToken({ sub: manager.id, user_id: manager.id, user_role: Role.Manager });
         return { accessToken };
     }
 

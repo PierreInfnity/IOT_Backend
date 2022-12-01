@@ -10,12 +10,13 @@ export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @Get()
+    @Roles(Role.Manager)
     findAll() {
         return this.productService.getAllProducts();
     }
 
     @Get(":id")
-    @Roles(Role.User)
+    @Roles(Role.User, Role.Manager)
     reservation(@Param("id") id: string) {
         return this.productService.getOneProducts(id);
     }
