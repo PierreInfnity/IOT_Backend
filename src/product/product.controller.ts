@@ -22,11 +22,13 @@ export class ProductController {
     }
 
     @Post()
+    @Roles(Role.Manager)
     createProduct(@Body() addProductDto: AddProductDto) {
         return this.productService.create(addProductDto);
     }
 
     @Put(":id")
+    @Roles(Role.Manager)
     updatePoduct(@Body() updateProductDto: UpdateProductDto, @Param("id") id: string) {
         return this.productService.update(id, updateProductDto);
     }
