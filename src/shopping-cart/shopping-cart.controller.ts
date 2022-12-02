@@ -29,6 +29,12 @@ export class ShoppingCartController {
         return this.shoppingCartService.getAllCarts();
     }
 
+
+    @Put()
+    SendMessage() {
+        return this.shoppingCartService.sendMessage();
+    }
+
     @Get("findReserved")
     @Roles(Role.User)
     isCartReserved(@Req() req): Promise<Cart> {

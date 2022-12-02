@@ -10,7 +10,7 @@ export class ProductController {
     constructor(private readonly productService: ProductService) { }
 
     @Get()
-    @Roles(Role.Manager)
+    @Roles(Role.Manager, Role.User)
     findAll() {
         return this.productService.getAllProducts();
     }
