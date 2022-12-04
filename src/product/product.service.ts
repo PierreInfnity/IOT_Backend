@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Product } from 'src/entity/Product.entity';
 import { AddProductDto } from './dto/add-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
+import { inspect } from 'util';
 
 @Injectable()
 export class ProductService {
@@ -29,7 +30,8 @@ export class ProductService {
     }
 
     async update(id: string, UpdateProductDto: UpdateProductDto): Promise<Product> {
-        const updateProduct: Product = Object.assign(UpdateProductDto);
-        return this.productRepository.save({ id: id, ...updateProduct });
+        let product = await this.productRepository.findOne({ where: { id: id } })
+        let newProduct = Object.assign(UpdateProductDto);
+        return this.productRepository.save({ id: id, ...product, ...newProduct });
     }
 }
