@@ -82,8 +82,6 @@ export class ProductService {
     }
 
     async getStatus(weight: number, idBalance: string): Promise<any> {
-
-
         let lastBalance: Balance = await this.balanceRepository.findOne({ where: { id: idBalance } })
 
         switch (lastBalance.status) {
