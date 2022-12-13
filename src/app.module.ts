@@ -20,7 +20,7 @@ import { SocketModule } from './socket/socket.module';
 import { AppGateway } from './app.gateway';
 import { Balance } from './entity/Balance.entity';
 import { Manager } from './entity/Manager.entity';
-import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
+import { RabbitModule } from './rabbitMq/rabbit.module';
 
 
 @Module({
@@ -42,11 +42,8 @@ import { RabbitMQModule } from '@golevelup/nestjs-rabbitmq';
     BasketModule,
     UserModule,
     SocketModule,
-  TypeOrmModule.forFeature([Basket, User, Cart, Product, Balance, Manager]),
-  RabbitMQModule.forRoot(RabbitMQModule, {
-    prefetchCount: 1,
-    uri: "amqp://rabbitmqBackend",
-  }),
+    RabbitModule,
+  TypeOrmModule.forFeature([Basket, User, Cart, Product, Balance, Manager])
   ],
   controllers: [AppController],
   providers: [AppService,

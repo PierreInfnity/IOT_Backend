@@ -61,9 +61,9 @@ services:
         - |
           set -e
           sleep 5
-          rabbitmqadmin -H rabbitmq -u guest -p guest declare exchange name=appliblanche-exchange type=fanout
-          rabbitmqadmin -H rabbitmq -u guest -p guest declare queue name=appliblanche-queue durable=true
-          rabbitmqadmin -H rabbitmq -u guest -p guest declare binding source=appliblanche-exchange destination=appliblanche-queue
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare exchange name=Iot-exchange type=fanout
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare queue name=Iot-queue durable=true
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare binding source=Iot-exchange destination=Iot-queue
 
 volumes:
   my-db:

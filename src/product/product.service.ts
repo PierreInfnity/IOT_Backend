@@ -95,7 +95,9 @@ export class ProductService {
                 this.socketService.client.send(JSON.stringify({ status: "pending" }))
                 return
             default:
-                if (lastBalance.precedentWeight + lastBalance.product.weight == weight) {
+                // if (lastBalance.precedentWeight + lastBalance.product.weight  == weight) {
+                if (weight > 600) {
+
                     lastBalance.status = BalanceStatus.ACCEPTED
                     lastBalance.precedentWeight = weight
                     lastBalance.finalWeight = weight
