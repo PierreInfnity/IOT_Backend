@@ -8,6 +8,7 @@
   "scripts": {
     "start:database": "docker-compose up -d database",
     "start:backend": "docker-compose up dev_backend",
+    "start:rabbitmq": "docker-compose up -d rabbitmq init_rabbitmq",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -23,6 +24,7 @@
     "test:e2e": "jest --config ./test/jest-e2e.json"
   },
   "dependencies": {
+    "@golevelup/nestjs-rabbitmq": "^3.4.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/jwt": "^9.0.0",
