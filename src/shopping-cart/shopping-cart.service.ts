@@ -4,19 +4,22 @@ import { BasketService } from 'src/basket/basket.service';
 import { Cart } from 'src/entity/Cart.entity';
 import * as QC from 'qrcode'
 import { Repository } from 'typeorm';
+import { Socket } from 'socket.io';
+import { Basket } from 'src/entity/Basket.entity';
+import { SocketService } from 'src/socket/socket.service';
 
 @Injectable()
 export class ShoppingCartService {
     constructor(
         @InjectRepository(Cart)
         private cartsRepository: Repository<Cart>,
-
+        private socketService: SocketService,
         private basketService: BasketService,
     ) { }
 
 
     async isCartReserved(userId: string): Promise<Cart> {
-        let basket = await this.basketService.findActiveBasketForUser(userId)
+        let basket: Basket = await this.basketService.findActiveBasketForUser(userId)
         if (basket) {
             return this.cartsRepository.findOne({ where: { basket: basket }, relations: ['basket'] })
         }
@@ -70,6 +73,13 @@ export class ShoppingCartService {
         return this.cartsRepository.find({
             relations: ['basket'],
         });
+    }
+
+    async sendMessage() {
+        let client = this.socketService.client
+        // Find the client with the key  = 1
+        console.log(client)
+        client.send('Balance Ok')
     }
 
     async endReservation(id: string): Promise<Cart> {

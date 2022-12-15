@@ -16,6 +16,11 @@ import { APP_GUARD } from '@nestjs/core';
 import { AuthGuard } from './auth/guards/auth.guards';
 import { Product } from './entity/Product.entity';
 import { ProductModule } from './product/product.module';
+import { SocketModule } from './socket/socket.module';
+import { AppGateway } from './app.gateway';
+import { Balance } from './entity/Balance.entity';
+import { Manager } from './entity/Manager.entity';
+import { RabbitModule } from './rabbitMq/rabbit.module';
 
 
 @Module({
@@ -31,13 +36,23 @@ import { ProductModule } from './product/product.module';
       autoLoadEntities: true,
       synchronize: true
     })
-  }), AuthModule, ProductModule, ShoppingCartModule, BasketModule, UserModule, TypeOrmModule.forFeature([Basket, User, Cart, Product])],
+  }), AuthModule,
+    ProductModule,
+    ShoppingCartModule,
+    BasketModule,
+    UserModule,
+    SocketModule,
+    RabbitModule,
+  TypeOrmModule.forFeature([Basket, User, Cart, Product, Balance, Manager])
+  ],
   controllers: [AppController],
   providers: [AppService,
     {
       provide: APP_GUARD,
       useExisting: AuthGuard
     },
-    AuthGuard,],
+    AuthGuard,
+    AppGateway
+  ],
 })
 export class AppModule { }

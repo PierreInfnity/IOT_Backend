@@ -37,6 +37,7 @@ export class BasketController {
     }
 
     @Get(':id')
+    @Roles(Role.User)
     getOne(@Param("id") id: string) {
         return this.basketService.getOne(id);
     }

@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, Relation } from "typeorm"
 import { Basket } from "./Basket.entity"
+import { Socket } from 'socket.io';
 
 @Entity()
 export class Cart {
@@ -12,4 +13,6 @@ export class Cart {
     @OneToOne(() => Basket, (basket) => basket.cart)
     @JoinColumn()
     basket: Relation<Basket>
+
+
 }

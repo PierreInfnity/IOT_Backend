@@ -8,10 +8,12 @@ services:
     container_name: iot_backend
     ports:
       - '3000:3000'
+      - '81:3001'
     networks:
       - database
     depends_on:
       - database
+      - rabbitmq
     command: npm run start:dev
     volumes:
       - .:/usr/src/app
@@ -37,6 +39,33 @@ services:
       - database
     volumes:
       - my-db:/var/lib/mysql
+
+  rabbitmq:
+    container_name: rabbitmqBackendIot
+    image: rabbitmq:3.10-management
+    command: "/bin/bash -c \"rabbitmq-plugins enable rabbitmq_mqtt; rabbitmq-plugins enable rabbitmq_web_mqtt; rabbitmq-server\""
+    networks:
+      - database
+    ports:
+      - 5672:5672
+      - 15672:15672
+      - 15675:15675
+
+  init_rabbitmq:
+      image: rabbitmq:3.10-management
+      depends_on:
+        - rabbitmq
+      networks: 
+        - database
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          sleep 10
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare exchange name=Iot-exchange type=fanout
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare queue name=Iot-queue durable=true
+          rabbitmqadmin -H rabbitmq -u guest -p guest declare binding source=Iot-exchange destination=Iot-queue
 
 volumes:
   my-db:
